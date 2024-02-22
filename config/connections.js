@@ -1,7 +1,6 @@
+// handling MongooseDB connection
 const { connect, connection } = require('mongoose');
 
-const connectionString = 'mongodb://127.0.0.1:27017/studentsDB';
-
-connect(connectionString);
+connect('mongodb://127.0.0.1:27017/socialNetworkAPI');
 
 module.exports = connection;
