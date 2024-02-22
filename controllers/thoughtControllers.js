@@ -1,4 +1,4 @@
-// API Endpoints 
+// CRUD HANDLING
 const { Thought} = require('../models');
 
 module.exports = {

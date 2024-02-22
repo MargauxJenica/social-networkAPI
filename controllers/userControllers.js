@@ -1,4 +1,4 @@
-// API Endpoints
+// CRUD HANDLING
 const { User, Application } = require('../models');
 
 module.exports = {
