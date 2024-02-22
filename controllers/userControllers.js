@@ -45,7 +45,7 @@ module.exports = {
       }
 
       await Application.deleteMany({ _id: { $in: user.applications } });
-      res.json({ message: 'User and associated apps deleted!' })
+      res.json({ message: 'User and associated apps deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
