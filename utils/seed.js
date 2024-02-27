@@ -44,8 +44,8 @@ connection.once('open', async () => {
 
   try {
 
-    await User.collection.insertMany(users);
-    console.log('Users count:', users.length);
+    await User.collection.insertMany(user);
+    console.log('Users count:', user.length);
 
     await Thought.collection.insertMany(thoughts);
     console.log('Thoughts count:', thoughts.length);
@@ -53,7 +53,7 @@ connection.once('open', async () => {
     console.table(users);
     console.table(thoughts);
     console.info('Seeding complete! 🌱');
-    
+
   } catch (error) {
     console.error('Error seeding database:', error);
   } finally {

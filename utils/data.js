@@ -27,7 +27,7 @@ const thoughtData = [
         username: 'wordspm',
     },
     {
-        thoughtText: 'I am not like other keyboards, I am qwerty',
+        thoughtText: 'I am not like other keyboards, I am qwerty!',
         username: 'qwerty',
     },
     {
