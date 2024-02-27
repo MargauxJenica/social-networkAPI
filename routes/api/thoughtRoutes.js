@@ -1,13 +1,13 @@
 // API Endpoints 
 const router = require('express').Router();
 const {
-  getThoughts,
-  getSingleThought,
-  createThought,
-  deleteThought,
-  updateThought,
-  createReaction,
-  removeReaction,
+  getThoughts, // get all thoughts
+  getSingleThought, // get a single thought by id
+  createThought, // (post) create a thought
+  updateThought, // update a thought by id
+  deleteThought, // delete a thought by id
+  createReaction, // create a reaction stored in single thought's reactions array
+  deleteReaction, // delete reaction by reactionId 
 } = require('../../controllers/thoughtController');
 
 // /api/thoughts
@@ -22,7 +22,7 @@ router
   .delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reactions
-router.route('/:thoughtId/reactions').post(createReaction);
+router.route('/:thoughtId/reactions').put(createReaction);
 
 // /api/thoughts/:thoughtId/reactions/:reactionId
 router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);

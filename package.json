@@ -4,11 +4,16 @@
   "description": "Network API",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "seed": "node utils/seed.js"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.17.1",
-    "init": "^0.1.2",
     "mongoose": "^7.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
   }
 }

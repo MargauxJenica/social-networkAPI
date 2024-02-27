@@ -1,37 +1,43 @@
 const userData = [
     {
-        email: 'mjs@getmail.com',
         username: 'oopsymx',
+        email: 'mjs@getmail.com',
     },
     {
-        email: 'wpm@getmail.com',
         username: 'wordspm',
+        email: 'wpm@getmail.com',
     },
     {
-        email: 'qwe@getmail.com',
         username: 'qwerty',
+        email: 'qwe@getmail.com',
     },
     {
-        email: 'asd@getmail.com',
         username: 'asdfghjkl',
+        email: 'asd@getmail.com',
     },
 ];
 
 const thoughtData = [
     {
+        thoughtText: 'These are my thoughts and my thoughts are here.',
         username: 'oopsymx',
-        thoughtContent: 'These are my thoughts and my thoughts are here.',
     },
     {
+        thoughtText: 'How fast can you type?',
         username: 'wordspm',
-        thoughtContent: 'How fast can you type?',
     },
     {
+        thoughtText: 'I am not like other keyboards, I am qwerty',
         username: 'qwerty',
-        thoughtContent: 'I am not like other keyboards, I am qwerty',
     },
     {
+        thoughtText: 'Holy smokeronies!',
         username: 'asdfghjkl',
-        thoughtContent: 'Holy smokeronies!',
     },
-]
+    {
+        thoughtText: 'Test Test Test.',
+        username: 'oopsymx',
+    },
+];
+
+module.exports = { userData, thoughtData };

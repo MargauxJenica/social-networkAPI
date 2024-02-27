@@ -1,5 +1,6 @@
 // CRUD HANDLING
-const { User, Application } = require('../models');
+const { User } = require('../models');
+// const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all users
@@ -15,7 +16,9 @@ module.exports = {
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId })
-        .select('-__v');
+        .select('-__v')
+        .populate('thoughts')
+        .populate('friends');
 
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
@@ -23,6 +26,7 @@ module.exports = {
 
       res.json(user);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -32,7 +36,8 @@ module.exports = {
       const user = await User.create(req.body);
       res.json(user);
     } catch (err) {
-      res.status(500).json(err);
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
   // Delete a user and associated apps
@@ -44,14 +49,22 @@ module.exports = {
         return res.status(404).json({ message: 'No user with that ID' });
       }
 
-      await Application.deleteMany({ _id: { $in: user.applications } });
+      await Thought.deleteMany({ _id: { $in: user.thoughts } });
       res.json({ message: 'User and associated apps deleted!' });
     } catch (err) {
-      res.status(500).json(err);
+      console.error(err);
+
+      // Handle specific error cases
+      if (err.name === 'CastError') {
+        return res.status(400).json({ message: 'Invalid user ID format' });
+      }
+
+      res.status(500).json({ message: 'Internal Server Error' });
     }
   },
   // update user
   async updateUser(req, res) {
+    console.log(req.params);
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -65,6 +78,7 @@ module.exports = {
 
       res.json(user);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
@@ -88,11 +102,12 @@ async addFriend(req, res) {
 
       res.json(user);
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },
   // Remove friend from a user
-  async removeFriend(req, res) {
+  async deleteFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
@@ -108,6 +123,7 @@ async addFriend(req, res) {
 
       res.json({message: 'Removed from your Friends'});
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   },

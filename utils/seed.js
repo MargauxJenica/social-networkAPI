@@ -1,52 +1,62 @@
 const connection = require('../config/connection');
 const { User, Thought } = require('../models');
-const { userData,thougtData } = require('./data');
+const { userData, thoughtData } = require('./data');
 
 connection.on('error', (err) => err);
 
 connection.once('open', async () => {
-  console.log('connected');
-  // Delete the collections if they exist
-  let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
-  if (userCheck.length) {
-    await connection.dropCollection('users');
-  }
+  console.log('connected to the database');
   
-  let thoughtCheck = await connection.db.listCollections({ name: 'thought' }).toArray();
-  if (thoughtCheck.length) {
-    await connection.dropCollection('thought');
+   // Delete the collections if they exist  
+   let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
+   if (userCheck.length) {
+     await connection.dropCollection('users');
+   }
+ 
+   let thoughtCheck = await connection.db.listCollections({ name: 'thought' }).toArray();
+   if (thoughtCheck.length) {
+     await connection.dropCollection('thought');
+   }
+ 
+   const user = [];
+ 
+   for(let x=0; x<userData.length; x++){
+     const username = userData[x].username;
+     const email = userData[x].email;
+ 
+     user.push({
+       username,
+       email,
+     });
+   }
+   
+   const thoughts = [];
+ 
+   for(let x=0; x<thoughtData.length; x++){
+     const thoughtText = thoughtData[x].thoughtText;
+     const username = thoughtData[x].username;
+ 
+     thoughts.push({
+       thoughtText,
+       username,
+     });
+}
+
+  try {
+
+    await User.collection.insertMany(users);
+    console.log('Users count:', users.length);
+
+    await Thought.collection.insertMany(thoughts);
+    console.log('Thoughts count:', thoughts.length);
+
+    console.table(users);
+    console.table(thoughts);
+    console.info('Seeding complete! 🌱');
+    
+  } catch (error) {
+    console.error('Error seeding database:', error);
+  } finally {
+    process.exit(0);
   }
-
-  const users = [];
-  const applications = getRandomApplications(10);
-
-  for (let i = 0; i < userData.length; i++) {
-    const username = userData[i].username;
-    const email = userData[i].email;
-
-    users.push({
-        username,
-        email,
-    });
-  }
-
-    const thoughts = [];
-
-    for(let i = 0; x < thoughtData.length; i++){
-        const thoughtContent = thoughtData[i].thoughtContent;
-        const username = thoughtData[i].username;
-
-        thoughts.push({
-        thoughtContent,
-        username,
-        });
-    }
-
-  await User.collection.insertMany(users);
-  await Thought.collection.insertMany(thoughts);
-
-  console.table(users);
-  console.table(thoughts);
-  console.info('Seeding complete! 🌱');
-  process.exit(0);
 });

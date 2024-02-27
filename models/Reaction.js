@@ -1,5 +1,4 @@
 const { Schema, Types } = require('mongoose');
-const { format } = require('path');
 
 const reactionSchema = new Schema(
   {
@@ -15,20 +14,7 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // getter method to format timestamp on query
-      get: function () {
-        const options = {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true,
-        };
-
-        return this.createdAt.toLocaleString('en-US', options);
-      },
+      // getter to format timestamp
     },
   },
   {
@@ -39,4 +25,4 @@ const reactionSchema = new Schema(
   }
 );
 
-module.exports = tagSchema;
+module.exports = reactionSchema;
