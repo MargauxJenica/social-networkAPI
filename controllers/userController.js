@@ -1,6 +1,6 @@
 // CRUD HANDLING
-const { User } = require('../models');
-// const { User, Thought } = require('../models');
+// const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
   // Get all users
@@ -15,19 +15,32 @@ module.exports = {
   // Get a single user
   async getSingleUser(req, res) {
     try {
+      console.log('User ID:', req.params.userId);
+      
       const user = await User.findOne({ _id: req.params.userId })
         .select('-__v')
         .populate('thoughts')
         .populate('friends');
-
+  
+      console.log('User Result:', user);
+  
       if (!user) {
-        return res.status(404).json({ message: 'No user with that ID' });
+        return res.status(404).json({ message: 'No user found with that ID' });
       }
-
+  
       res.json(user);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json(err);
+    } catch (error) {
+      console.error(error);
+  
+      if (error.name === 'CastError') {
+        return res.status(400).json({ message: 'Invalid user ID format' });
+      }
+  
+      if (error.name === 'ValidationError') {
+        return res.status(422).json({ message: 'Validation error', error });
+      }
+  
+      res.status(500).json({ message: 'Internal Server Error', error });
     }
   },
   // create a new user
