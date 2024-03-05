@@ -15,14 +15,23 @@ const reactionSchema = new Schema(
       type: Date,
       default: Date.now,
       // getter to format timestamp
-    },
+      get: formatTimestamp,
+    }
   },
   {
     toJSON: {
+      // transform: function (doc, ret) {
+      //   ret.reactionId = ret._id;
+      //   delete ret._id;
+      //   delete ret.__v;
+      // },
       getters: true,
     },
     id: false,
   }
 );
 
+function formatTimestamp(createdAt) {
+  return createdAt.toDateString(); // Format date 
+}
 module.exports = reactionSchema;

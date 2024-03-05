@@ -10,11 +10,12 @@ const thoughtSchema = new Schema(
         minLength: 1,
         maxLength: 280,
       },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-      // getter to format timestamp
-    },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+        // getter to format timestamp
+        get: formatTimestamp,
+      },
     username: {
       type: String,
       required: true,
@@ -24,6 +25,11 @@ const thoughtSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      transform: function (doc, ret) {
+        ret.thoughtId = ret._id;
+        delete ret._id;
+        delete ret.__v;
+      },
       getters: true,
     },
     id: false,
@@ -38,6 +44,9 @@ thoughtSchema
     return this.reactions.length;
   });
 
+function formatTimestamp(createdAt) {
+  return createdAt.toDateString(); // Format date
+}
 // Initialize our Thought model
 const Thought = model('Thought', thoughtSchema);
 

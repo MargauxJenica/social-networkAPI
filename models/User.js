@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-// const thoughtSchema = require('./Thoughts');
+const thoughtSchema = require('./Thought');
 
 const userSchema = new Schema (
     {
@@ -18,7 +18,7 @@ const userSchema = new Schema (
             thoughts: [
                 {
                     type: Schema.Types.ObjectId,
-                    ref: 'thought',
+                    ref: 'Thought',
                 },
             ],
             friends: [
@@ -31,8 +31,14 @@ const userSchema = new Schema (
     {
      toJSON: {
         virtuals: true,
+        transform: function (doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.__v;
+          },
         getters: true,
     }, 
+    // id: false,
     }
 );
 

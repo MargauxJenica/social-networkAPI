@@ -103,7 +103,7 @@ async addFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $addToSet: { friends: req.body._id } },
+        { $addToSet: { friends: req.params.friendId } },
         { runValidators: true, new: true }
       );
 
@@ -121,6 +121,9 @@ async addFriend(req, res) {
   },
   // Remove friend from a user
   async deleteFriend(req, res) {
+    console.log("You are deleting a friend");
+    console.log (req.body);
+    
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
